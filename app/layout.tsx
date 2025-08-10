@@ -34,7 +34,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Burikin - Kompresi Gambar & Video Online Gratis",
     description: "Kompres gambar dan video secara gratis, tanpa watermark, dan tanpa menyimpan file Anda.",
-    url: "https://burikin.vercel.app",
+    url: "https://burikin.rendiichtiar.com",
     siteName: "Burikin",
     locale: "id_ID",
     type: "website",
