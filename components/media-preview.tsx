@@ -36,6 +36,7 @@ interface MediaPreviewProps {
 
   onFileChange: (file: File) => void;
   setLoading: (loading: boolean) => void;
+  setServerBusy?: (busy: boolean) => void;
 }
 
 export function MediaPreview({ 
@@ -47,7 +48,8 @@ export function MediaPreview({
   type,
   mediaMeta,
   onFileChange,
-  setLoading
+  setLoading,
+  setServerBusy
 }: MediaPreviewProps) {
   const isVideo = type === 'video';
   const acceptType = isVideo ? "video/*" : "image/*";
@@ -58,7 +60,12 @@ export function MediaPreview({
     : "Hasil konversi sebelumnya akan hilang. Apakah Anda yakin ingin mengganti gambar?";
 
   if (serverBusy) {
-    return <QueueStatus onReady={() => setLoading(false)} />;
+    return (
+      <QueueStatus onReady={() => {
+        setServerBusy?.(false);
+        setLoading(false);
+      }} />
+    );
   }
 
   return (

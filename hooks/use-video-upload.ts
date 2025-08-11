@@ -79,7 +79,9 @@ export function useVideoUpload() {
       const json = await res.json();
       if (!res.ok) {
         if (res.status === 503) {
+          clearInterval(progressInterval);
           setServerBusy(true);
+          setProgress(0);
           return;
         }
         throw new Error(json?.error || 'Server error');

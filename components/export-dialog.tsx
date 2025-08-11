@@ -30,8 +30,8 @@ export function ExportDialog({ file, resultUrl, type }: ExportDialogProps) {
   if (!file || !resultUrl) return null;
 
   const originalName = file.name;
-  const extension = originalName.split('.').pop() || '';
-  const baseName = originalName.slice(0, -(extension.length + 1));
+  const extension = originalName.includes('.') ? originalName.split('.').pop() || '' : '';
+  const baseName = extension ? originalName.slice(0, -(extension.length + 1)) : originalName;
 
   return (
     <Dialog>
