@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useCallback, useRef } from 'react';
+import { useState, useCallback } from 'react';
 import { FileRejection } from 'react-dropzone';
 
 interface VideoMeta {
@@ -10,13 +10,13 @@ interface VideoMeta {
 }
 
 export function useVideoUpload() {
-  const fileInputRef = useRef<HTMLInputElement>(null);
   const [file, setFile] = useState<File | null>(null);
   const [preview, setPreview] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [progress, setProgress] = useState(0);
   const [resultUrl, setResultUrl] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [serverBusy, setServerBusy] = useState(false);
   const [videoMeta, setVideoMeta] = useState<VideoMeta | null>(null);
 
   const getVideoMeta = useCallback((url: string): Promise<VideoMeta> => {
@@ -43,7 +43,8 @@ export function useVideoUpload() {
     });
   }, []);
 
-  const send = useCallback(async (targetHeight: number, preserveAudio: boolean = false) => {
+  const send = useCallback(async (settings: { height: number; preserveAudio?: boolean }) => {
+    const { height: targetHeight, preserveAudio = false } = settings;
     if (!file) {
       setError('Pilih video dulu');
       return;
@@ -60,9 +61,9 @@ export function useVideoUpload() {
             clearInterval(progressInterval);
             return 90;
           }
-          return prev + 5;
+          return prev + 10;
         });
-      }, 1000);
+      }, 500);
 
       const dataUrl = await fileToDataUrl(file);
       const res = await fetch('/api/video', {
@@ -76,7 +77,14 @@ export function useVideoUpload() {
       });
 
       const json = await res.json();
-      if (!res.ok) throw new Error(json?.error || 'Server error');
+      if (!res.ok) {
+        if (res.status === 503) {
+          setServerBusy(true);
+          return;
+        }
+        throw new Error(json?.error || 'Server error');
+      }
+      setServerBusy(false);
 
       clearInterval(progressInterval);
       setProgress(100);
@@ -98,7 +106,7 @@ export function useVideoUpload() {
     if (fileRejections.length > 0) {
       const error = fileRejections[0].errors[0];
       if (error.code === 'file-too-large') {
-        setError(`Ukuran file terlalu besar (${(fileRejections[0].file.size / 1024 / 1024).toFixed(1)}MB). Maksimum 50MB.`);
+        setError(`Ukuran file terlalu besar (${(fileRejections[0].file.size / 1024 / 1024).toFixed(1)}MB). Maksimum 500MB.`);
       } else {
         setError('Format file tidak didukung. Gunakan MP4, WebM, atau MOV.');
       }
@@ -129,13 +137,13 @@ export function useVideoUpload() {
   }, [preview, resultUrl]);
 
   return {
-    fileInputRef,
     file,
     preview,
     loading,
     progress,
     resultUrl,
     error,
+    serverBusy,
     videoMeta,
     send,
     onDrop,
@@ -145,6 +153,7 @@ export function useVideoUpload() {
     setLoading,
     setFile,
     setVideoMeta,
-    setPreview
+    setPreview,
+    setServerBusy
   };
 }

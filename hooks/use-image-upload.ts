@@ -1,18 +1,19 @@
 'use client';
 
-import { useState, useCallback, useRef } from 'react';
+import { useState, useCallback } from 'react';
 import { FileRejection } from 'react-dropzone';
-import { fileToDataUrl, dataURLtoBlob } from "@/lib/image";
+import { fileToDataUrl } from "@/lib/image";
+import { dataURLtoBlob } from "@/lib/utils";
 import imageCompression from 'browser-image-compression';
 
 export function useImageUpload() {
-  const fileInputRef = useRef<HTMLInputElement>(null);
   const [file, setFile] = useState<File | null>(null);
   const [preview, setPreview] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [progress, setProgress] = useState(0);
   const [resultUrl, setResultUrl] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [serverBusy, setServerBusy] = useState(false);
   const [imageDimensions, setImageDimensions] = useState<{ width: number; height: number } | null>(null);
 
   const send = useCallback(async (targetH: number) => {
@@ -47,7 +48,14 @@ export function useImageUpload() {
       });
       
       const json = await res.json();
-      if (!res.ok) throw new Error(json?.error || 'Server error');
+      if (!res.ok) {
+        if (res.status === 503) {
+          setServerBusy(true);
+          return;
+        }
+        throw new Error(json?.error || 'Server error');
+      }
+      setServerBusy(false);
       
       const b64 = json.result;
       const blob = dataURLtoBlob(`data:image/jpeg;base64,${b64}`);
@@ -68,7 +76,7 @@ export function useImageUpload() {
     if (fileRejections.length > 0) {
       const error = fileRejections[0].errors[0];
       if (error.code === 'file-too-large') {
-        setError(`Ukuran file terlalu besar (${(fileRejections[0].file.size / 1024 / 1024).toFixed(1)}MB). Maksimum 10MB.`);
+        setError(`Ukuran file terlalu besar (${(fileRejections[0].file.size / 1024 / 1024).toFixed(1)}MB). Maksimum 50MB.`);
       } else {
         setError('Format file tidak didukung. Gunakan JPG, PNG, atau GIF.');
       }
@@ -118,13 +126,13 @@ export function useImageUpload() {
   }, [preview, resultUrl]);
 
   return {
-    fileInputRef,
     file,
     preview,
     loading,
     progress,
     resultUrl,
     error,
+    serverBusy,
     imageDimensions,
     send,
     onDrop,
@@ -134,6 +142,7 @@ export function useImageUpload() {
     setLoading,
     setFile,
     setImageDimensions,
-    setPreview
+    setPreview,
+    setServerBusy
   };
 }

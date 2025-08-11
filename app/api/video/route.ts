@@ -3,10 +3,10 @@ import { createHash } from 'crypto';
 import ffmpeg from 'fluent-ffmpeg';
 import { rateLimit } from '@/lib/rate-limit';
 import { join } from 'path';
-import { writeFile, unlink, readFile } from 'fs/promises';
+import { writeFile, unlink, readFile, mkdir } from 'fs/promises';
 import { tmpdir } from 'os';
 
-const MAX_VIDEO_SIZE = 50 * 1024 * 1024; // 50MB
+const MAX_VIDEO_SIZE = 500 * 1024 * 1024; // 500MB
 const ALLOWED_MIME_TYPES = ['video/mp4', 'video/webm', 'video/quicktime'];
 
 // Set ffmpeg path
@@ -18,15 +18,25 @@ export async function POST(req: Request) {
   const inputPath = join(tmpdir(), `input-${timestamp}.mp4`);
   const outputPath = join(tmpdir(), `output-${timestamp}.mp4`);
 
+  let processId = 0; // Default value
+  
   try {
     // Rate limiting
     const ip = req.headers.get('x-forwarded-for') || 'unknown';
-    const { success, remaining } = await rateLimit.check(ip);
+    const { success, remaining, serverBusy } = await rateLimit.check(ip);
     if (!success) {
+      if (serverBusy) {
+        return NextResponse.json({ 
+          error: 'Server sedang sibuk. Mohon tunggu beberapa saat.' 
+        }, { status: 503 });
+      }
       return NextResponse.json({ 
-        error: 'Terlalu banyak request. Coba lagi dalam beberapa menit.' 
+        error: 'Terlalu banyak permintaan. Coba lagi nanti.' 
       }, { status: 429 });
     }
+    
+    // Mulai tracking proses
+    processId = rateLimit.startProcess();
 
     const body = await req.json();
     
@@ -47,6 +57,13 @@ export async function POST(req: Request) {
     const cacheDir = join(tmpdir(), 'video-cache');
     const cachePath = join(cacheDir, `${cacheKey}.mp4`);
 
+    // Ensure cache directory exists
+    try {
+      await mkdir(cacheDir, { recursive: true });
+    } catch {
+      // Ignore mkdir errors
+    }
+
     try {
       // Try to read from cache
       const cachedVideo = await readFile(cachePath);
@@ -59,30 +76,33 @@ export async function POST(req: Request) {
       // Cache miss, continue with processing
     }
 
-    // Validate data URL format
-    if (!dataUrl || dataUrl.length > MAX_VIDEO_SIZE) {
-      return NextResponse.json({ error: 'Ukuran file melebihi batas maksimum (50MB). Silakan pilih file yang lebih kecil.' }, { status: 400 });
+    // Validate data URL presence
+    if (!dataUrl) {
+      return NextResponse.json({ error: 'Input tidak valid.' }, { status: 400 });
     }
 
     const [header, base64] = dataUrl.split(',');
     if (!header || !base64 || !header.startsWith('data:video/')) {
-      return NextResponse.json({ error: 'Format video tidak valid' }, { status: 400 });
+      return NextResponse.json({ error: 'Input tidak valid.' }, { status: 400 });
     }
 
     // Extract mime type
     const mime = header.slice(5, header.indexOf(';'));
     if (!ALLOWED_MIME_TYPES.includes(mime)) {
       return NextResponse.json({ 
-        error: `Format tidak didukung. Format yang didukung: MP4, WebM, MOV` 
+        error: 'Format tidak didukung. Gunakan MP4, WebM, atau MOV.' 
       }, { status: 400 });
     }
 
     // Write input file
     const buffer = Buffer.from(base64, 'base64');
+    if (buffer.length > MAX_VIDEO_SIZE) {
+      return NextResponse.json({ error: `File terlalu besar. Maks ${MAX_VIDEO_SIZE / 1024 / 1024}MB.` }, { status: 400 });
+    }
     await writeFile(inputPath, buffer);
 
-    // Process video
-    await new Promise((resolve, reject) => {
+    // Process video with timeout
+    const processingPromise = new Promise((resolve, reject) => {
       ffmpeg(inputPath)
         .size(`?x${targetHeight}`)
         .videoCodec('libx264')
@@ -99,6 +119,9 @@ export async function POST(req: Request) {
         .on('end', resolve)
         .save(outputPath);
     });
+
+    const timeoutPromise = new Promise((_, reject) => setTimeout(() => reject(new Error('Timeout')), 600000)); // 10 menit
+    await Promise.race([processingPromise, timeoutPromise]);
 
     // Read output file
     const outputBuffer = await readFile(outputPath);
@@ -117,6 +140,9 @@ export async function POST(req: Request) {
       unlink(outputPath)
     ]);
 
+    // Akhiri tracking proses setelah sukses
+    rateLimit.endProcess(processId);
+
     return NextResponse.json({ 
       result: `data:video/mp4;base64,${outputBase64}`,
       mime: 'video/mp4'
@@ -126,6 +152,9 @@ export async function POST(req: Request) {
 
   } catch (err: unknown) {
     console.error('Error:', err);
+    
+    // Akhiri tracking proses
+    rateLimit.endProcess(processId);
     
     // Cleanup temp files on error
     try {
@@ -138,15 +167,20 @@ export async function POST(req: Request) {
     }
 
     if (err instanceof Error) {
+      if (err.message === 'Timeout') {
+        return NextResponse.json({ 
+          error: 'Timeout. Coba lagi.' 
+        }, { status: 408 });
+      }
       if (err.message.includes('duration')) {
         return NextResponse.json({ 
-          error: 'Tidak dapat membaca durasi video' 
+          error: 'Durasi video tidak dapat dibaca.' 
         }, { status: 400 });
       }
     }
 
     return NextResponse.json({ 
-      error: 'Terjadi kesalahan saat memproses video' 
+      error: 'Terjadi kesalahan di server. Coba lagi.' 
     }, { status: 500 });
   }
 }

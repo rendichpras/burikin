@@ -14,6 +14,7 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { RefreshCw, Loader2 } from 'lucide-react';
+import { QueueStatus } from './queue-status';
 
 interface MediaDimensions {
   width: number;
@@ -28,22 +29,25 @@ interface MediaPreviewProps {
   file: File | null;
   preview: string | null;
   loading: boolean;
+  serverBusy?: boolean;
   resultUrl: string | null;
   type: 'image' | 'video';
   mediaMeta: MediaDimensions | VideoMeta | null;
 
   onFileChange: (file: File) => void;
+  setLoading: (loading: boolean) => void;
 }
 
 export function MediaPreview({ 
   file, 
   preview, 
-  loading, 
+  loading,
+  serverBusy,
   resultUrl,
   type,
   mediaMeta,
-
-  onFileChange
+  onFileChange,
+  setLoading
 }: MediaPreviewProps) {
   const isVideo = type === 'video';
   const acceptType = isVideo ? "video/*" : "image/*";
@@ -52,6 +56,10 @@ export function MediaPreview({
   const dialogDescription = isVideo 
     ? "Video yang sedang diproses akan dibatalkan. Anda yakin ingin mengganti video?"
     : "Hasil konversi sebelumnya akan hilang. Apakah Anda yakin ingin mengganti gambar?";
+
+  if (serverBusy) {
+    return <QueueStatus onReady={() => setLoading(false)} />;
+  }
 
   return (
     <div className="bg-card/50 backdrop-blur-sm rounded-xl border p-4">

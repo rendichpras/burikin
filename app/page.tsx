@@ -18,13 +18,13 @@ export default function Page() {
 
   // Image Upload Hook
   const {
-    fileInputRef: imageInputRef,
     file: imageFile,
     preview: imagePreview,
     loading: imageLoading,
     progress: imageProgress,
     resultUrl: imageResultUrl,
     error: imageError,
+    serverBusy: imageServerBusy,
     imageDimensions,
     send: sendImage,
     onDrop: onDropImage,
@@ -39,13 +39,13 @@ export default function Page() {
 
   // Video Upload Hook
   const {
-    fileInputRef: videoInputRef,
     file: videoFile,
     preview: videoPreview,
     loading: videoLoading,
     progress: videoProgress,
     resultUrl: videoResultUrl,
     error: videoError,
+    serverBusy: videoServerBusy,
     videoMeta,
     send: sendVideo,
     onDrop: onDropVideo,
@@ -68,7 +68,7 @@ export default function Page() {
   // Video Effect
   useEffect(() => {
     if (videoFile && mediaType === 'video') {
-      sendVideo(144, false); // Default to 144p with compressed audio
+      sendVideo({ height: 144, preserveAudio: false }); // Default to 144p with compressed audio
     }
   }, [videoFile, mediaType, sendVideo]);
 
@@ -89,6 +89,7 @@ export default function Page() {
             <button
               onClick={() => {
                 setMediaType('image');
+                setTargetH(96);
                 // Reset video states
                 setVideoFile(null);
                 setVideoPreview(null);
@@ -104,11 +105,12 @@ export default function Page() {
             >
               <ImageIcon className="w-4 h-4" />
               <span className="text-sm font-medium">Gambar</span>
-              <span className="text-xs text-muted-foreground">10MB</span>
+              <span className="text-xs text-muted-foreground">50MB</span>
             </button>
             <button
               onClick={() => {
                 setMediaType('video');
+                setTargetH(144);
                 // Reset image states
                 setImageFile(null);
                 setImagePreview(null);
@@ -124,7 +126,7 @@ export default function Page() {
             >
               <Video className="w-4 h-4" />
               <span className="text-sm font-medium">Video</span>
-              <span className="text-xs text-muted-foreground">50MB</span>
+              <span className="text-xs text-muted-foreground">500MB</span>
             </button>
           </div>
           <p className="text-center text-xs text-muted-foreground mt-3 px-2">
@@ -144,7 +146,7 @@ export default function Page() {
                   'image/png': [],
                   'image/gif': []
                 }}
-                maxSize={10 * 1024 * 1024}
+                maxSize={50 * 1024 * 1024}
               />
             ) : (
               <MediaPreview
@@ -152,8 +154,10 @@ export default function Page() {
                 file={imageFile}
                 preview={imagePreview}
                 loading={imageLoading}
+                serverBusy={imageServerBusy}
                 resultUrl={imageResultUrl}
                 mediaMeta={imageDimensions}
+                setLoading={setImageLoading}
 
                 onFileChange={(f) => {
                   setImageError(null);
@@ -212,7 +216,7 @@ export default function Page() {
                   'video/webm': [],
                   'video/quicktime': []
                 }}
-                maxSize={50 * 1024 * 1024}
+                maxSize={500 * 1024 * 1024}
               />
             ) : (
               <MediaPreview
@@ -220,8 +224,10 @@ export default function Page() {
                 file={videoFile}
                 preview={videoPreview}
                 loading={videoLoading}
+                serverBusy={videoServerBusy}
                 resultUrl={videoResultUrl}
                 mediaMeta={videoMeta}
+                setLoading={setVideoLoading}
 
                 onFileChange={(f) => {
                   setVideoError(null);
@@ -256,7 +262,7 @@ export default function Page() {
                 targetH={targetH}
                 onSettingsChange={(settings) => {
                   setTargetH(settings.height);
-                  sendVideo(settings.height, settings.preserveAudio);
+                  sendVideo({ height: settings.height, preserveAudio: settings.preserveAudio });
                 }}
               />
             )}

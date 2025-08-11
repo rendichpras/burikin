@@ -26,8 +26,7 @@ interface MediaComparisonProps {
   file: File | null;
   onSettingsChange?: (settings: {
     height: number;
-    bitrate?: number;
-    fps?: number;
+    preserveAudio?: boolean;
   }) => void;
 }
 
@@ -40,7 +39,6 @@ export function MediaComparison({
   mediaMeta,
   targetH,
   setTargetH,
-  file,
   onSettingsChange
 }: MediaComparisonProps) {
   const isVideo = type === 'video';
