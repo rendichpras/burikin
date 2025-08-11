@@ -1,7 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { ThemeProvider } from "next-themes";
-import { Analytics } from "@vercel/analytics/react";
 import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
 import "./globals.css";
@@ -89,7 +88,6 @@ export default function RootLayout({
             {children}
           </main>
           <Footer />
-          <Analytics />
         </ThemeProvider>
       </body>
     </html>
