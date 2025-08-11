@@ -12,11 +12,16 @@ const MAX_DIMENSION = 5000;
 const MIN_DIMENSION = 1;
 
 export async function POST(req: Request) {
+  const startTime = Date.now();
+  const requestId = Math.random().toString(36).substring(7);
   let processId = 0; // Default value
+
+  const ip = req.headers.get('x-forwarded-for') || 'unknown';
+  console.log(`[${requestId}][IMAGE] Processing request started | IP: ${ip}`);
   
   try {
     // Rate limiting
-    const ip = req.headers.get('x-forwarded-for') || 'unknown';
+
     const { success, remaining, serverBusy } = await rateLimit.check(ip);
     if (!success) {
       if (serverBusy) {
@@ -60,6 +65,7 @@ export async function POST(req: Request) {
     try {
       // Try to read from cache
       const cachedImage = await readFile(cachePath);
+      console.log(`[${requestId}][IMAGE] Using cached result`);
       return NextResponse.json({
         result: `data:image/jpeg;base64,${cachedImage.toString('base64')}`,
         mime: 'image/jpeg',
@@ -143,6 +149,19 @@ export async function POST(req: Request) {
     // Akhiri tracking proses setelah sukses
     rateLimit.endProcess(processId);
 
+    const duration = Date.now() - startTime;
+    const originalSize = buffer.length / 1024 / 1024;
+    const processedSize = result.length / 1024 / 1024;
+    const compression = ((1 - processedSize / originalSize) * 100).toFixed(1);
+    
+    console.log(
+      `[${requestId}][IMAGE] Processed successfully in ${duration}ms | ` +
+      `Original: ${originalSize.toFixed(1)}MB | ` +
+      `Processed: ${processedSize.toFixed(1)}MB | ` +
+      `Compressed: ${compression}% | ` +
+      `Dimensions: ${meta.width}x${meta.height}px`
+    );
+
     return NextResponse.json({ 
       result: result.toString('base64'),
       mime: 'image/jpeg'
@@ -151,7 +170,8 @@ export async function POST(req: Request) {
     });
 
   } catch (err: unknown) {
-    console.error('Error:', err);
+    const duration = Date.now() - startTime;
+    console.error(`[${requestId}][IMAGE] Error processing (${duration}ms):`, err);
     
     // Akhiri tracking proses
     rateLimit.endProcess(processId);
