@@ -1,9 +1,8 @@
 import { NextResponse } from 'next/server';
-import { createHash } from 'crypto';
 import ffmpeg from 'fluent-ffmpeg';
 import { rateLimit } from '@/lib/rate-limit';
 import { join } from 'path';
-import { writeFile, unlink, readFile, mkdir } from 'fs/promises';
+import { writeFile, unlink, readFile } from 'fs/promises';
 import { tmpdir } from 'os';
 
 const MAX_VIDEO_SIZE = 500 * 1024 * 1024; // 500MB
@@ -55,34 +54,6 @@ export async function POST(req: Request) {
     const targetHeight = Math.floor(Number(body.targetHeight)) || 144; // Default to 144p
     const preserveAudio = Boolean(body.preserveAudio);
 
-    // Generate cache key
-    const cacheKey = createHash('md5')
-      .update(`${dataUrl}${targetHeight}${preserveAudio}`)
-      .digest('hex');
-    
-    const cacheDir = join(tmpdir(), 'video-cache');
-    const cachePath = join(cacheDir, `${cacheKey}.mp4`);
-
-    // Ensure cache directory exists
-    try {
-      await mkdir(cacheDir, { recursive: true });
-    } catch {
-      // Ignore mkdir errors
-    }
-
-    try {
-      // Try to read from cache
-      const cachedVideo = await readFile(cachePath);
-      console.log(`[${requestId}][VIDEO] Using cached result`);
-      return NextResponse.json({
-        result: `data:video/mp4;base64,${cachedVideo.toString('base64')}`,
-        mime: 'video/mp4',
-        cached: true
-      });
-    } catch {
-      // Cache miss, continue with processing
-    }
-
     // Validate data URL presence
     if (!dataUrl) {
       return NextResponse.json({ error: 'Input tidak valid.' }, { status: 400 });
@@ -133,13 +104,6 @@ export async function POST(req: Request) {
     // Read output file
     const outputBuffer = await readFile(outputPath);
     const outputBase64 = outputBuffer.toString('base64');
-
-    // Save to cache
-    try {
-      await writeFile(cachePath, outputBuffer);
-    } catch {
-      // Ignore cache write errors
-    }
 
     // Cleanup temp files
     await Promise.all([

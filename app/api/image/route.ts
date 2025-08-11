@@ -1,10 +1,6 @@
 import { NextResponse } from 'next/server';
 import sharp from 'sharp';
 import { rateLimit } from '@/lib/rate-limit';
-import { createHash } from 'crypto';
-import { join } from 'path';
-import { writeFile, readFile, mkdir } from 'fs/promises';
-import { tmpdir } from 'os';
 
 const MAX_FILE_SIZE = 50 * 1024 * 1024; // 50MB
 const ALLOWED_MIME_TYPES = ['image/jpeg', 'image/png', 'image/gif'];
@@ -46,34 +42,6 @@ export async function POST(req: Request) {
 
     const dataUrl = body.image;
     const targetHeight = Math.floor(Number(body.targetHeight)) || 144;
-
-    // Generate cache key
-    const cacheKey = createHash('md5')
-      .update(`${dataUrl}${targetHeight}`)
-      .digest('hex');
-    
-    const cacheDir = join(tmpdir(), 'image-cache');
-    const cachePath = join(cacheDir, `${cacheKey}.jpg`);
-
-    // Ensure cache directory exists
-    try {
-      await mkdir(cacheDir, { recursive: true });
-    } catch {
-      // Ignore mkdir errors
-    }
-
-    try {
-      // Try to read from cache
-      const cachedImage = await readFile(cachePath);
-      console.log(`[${requestId}][IMAGE] Using cached result`);
-      return NextResponse.json({
-        result: `data:image/jpeg;base64,${cachedImage.toString('base64')}`,
-        mime: 'image/jpeg',
-        cached: true
-      });
-    } catch {
-      // Cache miss, continue with processing
-    }
 
     // Validate data URL presence
     if (!dataUrl) {
@@ -138,13 +106,6 @@ export async function POST(req: Request) {
       processPromise,
       new Promise((_, reject) => setTimeout(() => reject(new Error('Timeout')), 30000))
     ]) as Buffer;
-
-    // Save to cache
-    try {
-      await writeFile(cachePath, result);
-    } catch {
-      // Ignore cache write errors
-    }
 
     // Akhiri tracking proses setelah sukses
     rateLimit.endProcess(processId);
