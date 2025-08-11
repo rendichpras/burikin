@@ -29,8 +29,9 @@ export function QueueStatus({ onReady }: QueueStatusProps) {
         if (data.activeProcesses < 10) {
           onReady?.();
         }
-      } catch (err) {
+      } catch (error) {
         setError('Gagal mendapatkan status server');
+        console.error('Error fetching status:', error);
       }
     };
 

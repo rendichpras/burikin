@@ -52,7 +52,7 @@ export async function POST(req: Request) {
 
     const dataUrl = body.video;
     const targetHeight = Math.floor(Number(body.targetHeight)) || 144; // Default to 144p
-    const preserveAudio = Boolean(body.preserveAudio);
+    const audioBitrate = Math.max(1, Math.min(320, Math.floor(Number(body.audioBitrate)) || 32));
 
     // Validate data URL presence
     if (!dataUrl) {
@@ -85,13 +85,13 @@ export async function POST(req: Request) {
         .size(`?x${targetHeight}`)
         .videoCodec('libx264')
         .audioCodec('aac')
-        .audioBitrate(preserveAudio ? '128k' : '32k') // Kompresi audio jika tidak preserve
+        .audioBitrate(`${audioBitrate}k`) // Bitrate audio kustom
         .outputOptions([
           '-preset ultrafast', // Lebih cepat tapi ukuran lebih besar
           '-crf 28', // Kualitas lebih rendah untuk ukuran lebih kecil
           '-movflags faststart',
           '-strict experimental',
-          ...(preserveAudio ? [] : ['-ac 1']) // Mono audio jika tidak preserve
+          '-ac 2' // Stereo audio
         ])
         .on('error', reject)
         .on('end', resolve)
@@ -124,7 +124,7 @@ export async function POST(req: Request) {
       `Original: ${originalSize.toFixed(1)}MB | ` +
       `Processed: ${processedSize.toFixed(1)}MB | ` +
       `Compressed: ${compression}% | ` +
-      `Audio: ${preserveAudio ? 'High (128k)' : 'Low (32k)'}`
+      `Audio: ${audioBitrate}kbps`
     );
 
     return NextResponse.json({ 
