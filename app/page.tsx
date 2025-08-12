@@ -81,8 +81,9 @@ export default function Page() {
   }, [cleanupImage, cleanupVideo]);
 
   return (
-    <div className="container max-w-5xl mx-auto py-8 sm:py-12 px-4">
-      <div className="max-w-2xl mx-auto space-y-6">
+    <div className="flex-1 flex items-center py-8 sm:py-12">
+      <div className="container max-w-5xl mx-auto px-4">
+        <div className="max-w-2xl mx-auto space-y-6">
         {/* Media Type Selector */}
         <div className="bg-card/50 backdrop-blur-sm rounded-xl border p-4">
           <div className="flex gap-2">
@@ -97,10 +98,10 @@ export default function Page() {
                 setVideoError(null);
                 setVideoMeta(null);
               }}
-              className={`flex-1 flex items-center justify-center gap-2 px-4 py-3 rounded-lg transition-all duration-200 ${
+              className={`flex-1 flex items-center justify-center gap-2 px-4 py-3 rounded-lg transition-all duration-200 border ${
                 mediaType === 'image'
-                  ? 'bg-primary/10 text-primary ring-1 ring-primary/20'
-                  : 'hover:bg-muted'
+                  ? 'bg-primary/10 text-primary border-primary/20'
+                  : 'border-border hover:border-primary/20 hover:bg-muted/50'
               }`}
             >
               <ImageIcon className="w-4 h-4" />
@@ -118,10 +119,10 @@ export default function Page() {
                 setImageError(null);
                 setImageDimensions(null);
               }}
-              className={`flex-1 flex items-center justify-center gap-2 px-4 py-3 rounded-lg transition-all duration-200 ${
+              className={`flex-1 flex items-center justify-center gap-2 px-4 py-3 rounded-lg transition-all duration-200 border ${
                 mediaType === 'video'
-                  ? 'bg-primary/10 text-primary ring-1 ring-primary/20'
-                  : 'hover:bg-muted'
+                  ? 'bg-primary/10 text-primary border-primary/20'
+                  : 'border-border hover:border-primary/20 hover:bg-muted/50'
               }`}
             >
               <Video className="w-4 h-4" />
@@ -274,6 +275,7 @@ export default function Page() {
             )}
           </>
         )}
+        </div>
       </div>
     </div>
   );

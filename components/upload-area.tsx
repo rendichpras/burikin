@@ -45,7 +45,7 @@ export function UploadArea({
       {...getRootProps()} 
       className={`
         border border-dashed rounded-xl p-8 text-center transition-colors
-        ${isDragActive ? 'border-primary bg-primary/5' : 'border-muted hover:border-primary/20 hover:bg-muted/50'}
+        ${isDragActive ? 'border-primary bg-primary/5' : 'border-border hover:border-primary/20 hover:bg-muted/50'}
         cursor-pointer bg-card/50 backdrop-blur-sm
       `}
     >
