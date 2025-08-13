@@ -6,8 +6,8 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: var(--font-inter);
+  --font-mono: var(--font-inter);
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
@@ -44,72 +44,73 @@
 }
 
 :root {
-  --radius: 0.75rem;
-  --background: #F8FAFC;
-  --foreground: #1E293B;
+  /* Neobrutalism Design System - Classic Colors */
+  --radius: 0.25rem; /* Sharp edges instead of rounded */
+  --background: #F8F8F8;
+  --foreground: #1A1A1A;
   --card: #FFFFFF;
-  --card-foreground: #1E293B;
+  --card-foreground: #1A1A1A;
   --popover: #FFFFFF;
-  --popover-foreground: #1E293B;
-  --primary: #2563EB;
+  --popover-foreground: #1A1A1A;
+  --primary: #FF6B35; /* Bold orange - classic neobrutalism */
   --primary-foreground: #FFFFFF;
-  --secondary: #F1F5F9;
-  --secondary-foreground: #1E293B;
-  --muted: #F1F5F9;
-  --muted-foreground: #64748B;
-  --accent: #F1F5F9;
-  --accent-foreground: #1E293B;
-  --destructive: #EF4444;
-  --border: #E2E8F0;
-  --input: #E2E8F0;
-  --ring: #2563EB;
-  --chart-1: #2563EB;
-  --chart-2: #3B82F6;
-  --chart-3: #60A5FA;
-  --chart-4: #93C5FD;
-  --chart-5: #BFDBFE;
+  --secondary: #4ECDC4; /* Bright teal */
+  --secondary-foreground: #FFFFFF;
+  --muted: #F0F0F0;
+  --muted-foreground: #666666;
+  --accent: #FFE66D; /* Bright yellow */
+  --accent-foreground: #1A1A1A;
+  --destructive: #FF4757; /* Bright red */
+  --border: #1A1A1A; /* Black borders for contrast */
+  --input: #FFFFFF;
+  --ring: #FF6B35;
+  --chart-1: #FF6B35;
+  --chart-2: #4ECDC4;
+  --chart-3: #FFE66D;
+  --chart-4: #FF4757;
+  --chart-5: #A55EEA;
   --sidebar: #FFFFFF;
-  --sidebar-foreground: #1E293B;
-  --sidebar-primary: #2563EB;
+  --sidebar-foreground: #1A1A1A;
+  --sidebar-primary: #FF6B35;
   --sidebar-primary-foreground: #FFFFFF;
-  --sidebar-accent: #F1F5F9;
-  --sidebar-accent-foreground: #1E293B;
-  --sidebar-border: #E2E8F0;
-  --sidebar-ring: #2563EB;
+  --sidebar-accent: #4ECDC4;
+  --sidebar-accent-foreground: #FFFFFF;
+  --sidebar-border: #1A1A1A;
+  --sidebar-ring: #FF6B35;
 }
 
 .dark {
-  --background: #0F172A;
-  --foreground: #F8FAFC;
-  --card: #1E293B;
-  --card-foreground: #F8FAFC;
-  --popover: #1E293B;
-  --popover-foreground: #F8FAFC;
-  --primary: #3B82F6;
+  --background: #1A1A1A;
+  --foreground: #FFFFFF;
+  --card: #2A2A2A;
+  --card-foreground: #FFFFFF;
+  --popover: #2A2A2A;
+  --popover-foreground: #FFFFFF;
+  --primary: #FF6B35; /* Keep bold orange in dark mode */
   --primary-foreground: #FFFFFF;
-  --secondary: #1E293B;
-  --secondary-foreground: #F8FAFC;
-  --muted: #1E293B;
-  --muted-foreground: #94A3B8;
-  --accent: #1E293B;
-  --accent-foreground: #F8FAFC;
-  --destructive: #DC2626;
-  --border: #334155;
-  --input: #334155;
-  --ring: #3B82F6;
-  --chart-1: #3B82F6;
-  --chart-2: #60A5FA;
-  --chart-3: #93C5FD;
-  --chart-4: #BFDBFE;
-  --chart-5: #DBEAFE;
-  --sidebar: #1E293B;
-  --sidebar-foreground: #F8FAFC;
-  --sidebar-primary: #3B82F6;
+  --secondary: #4ECDC4; /* Keep bright teal */
+  --secondary-foreground: #FFFFFF;
+  --muted: #333333;
+  --muted-foreground: #CCCCCC;
+  --accent: #FFE66D; /* Keep bright yellow */
+  --accent-foreground: #1A1A1A;
+  --destructive: #FF4757; /* Keep bright red */
+  --border: #FFFFFF; /* White borders for dark mode */
+  --input: #2A2A2A;
+  --ring: #FF6B35;
+  --chart-1: #FF6B35;
+  --chart-2: #4ECDC4;
+  --chart-3: #FFE66D;
+  --chart-4: #FF4757;
+  --chart-5: #A55EEA;
+  --sidebar: #2A2A2A;
+  --sidebar-foreground: #FFFFFF;
+  --sidebar-primary: #FF6B35;
   --sidebar-primary-foreground: #FFFFFF;
-  --sidebar-accent: #1E293B;
-  --sidebar-accent-foreground: #F8FAFC;
-  --sidebar-border: #334155;
-  --sidebar-ring: #3B82F6;
+  --sidebar-accent: #4ECDC4;
+  --sidebar-accent-foreground: #FFFFFF;
+  --sidebar-border: #FFFFFF;
+  --sidebar-ring: #FF6B35;
 }
 
 @layer base {
@@ -118,5 +119,73 @@
   }
   body {
     @apply bg-background text-foreground;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    font-weight: 500; /* Slightly bolder text for neobrutalism */
+  }
+  
+  /* Neobrutalism specific styles */
+  .neo-shadow {
+    box-shadow: 4px 4px 0px 0px rgba(26, 26, 26, 1);
+  }
+  
+  .neo-shadow-hover {
+    box-shadow: 6px 6px 0px 0px rgba(26, 26, 26, 1);
+  }
+  
+  .neo-shadow-sm {
+    box-shadow: 2px 2px 0px 0px rgba(26, 26, 26, 1);
+  }
+  
+  .neo-shadow-lg {
+    box-shadow: 8px 8px 0px 0px rgba(26, 26, 26, 1);
+  }
+  
+  /* Dark mode shadows */
+  .dark .neo-shadow {
+    box-shadow: 4px 4px 0px 0px rgba(255, 255, 255, 1);
+  }
+  
+  .dark .neo-shadow-hover {
+    box-shadow: 6px 6px 0px 0px rgba(255, 255, 255, 1);
+  }
+  
+  .dark .neo-shadow-sm {
+    box-shadow: 2px 2px 0px 0px rgba(255, 255, 255, 1);
+  }
+  
+  .dark .neo-shadow-lg {
+    box-shadow: 8px 8px 0px 0px rgba(255, 255, 255, 1);
+  }
+  
+  /* Neobrutalism animations */
+  .neo-hover {
+    transition: all 0.2s ease-in-out;
+  }
+  
+  .neo-hover:hover {
+    transform: translate(-2px, -2px);
+  }
+  
+  .neo-hover:active {
+    transform: translate(0px, 0px);
+  }
+  
+  /* Custom scrollbar for neobrutalism */
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  
+  ::-webkit-scrollbar-track {
+    background: var(--muted);
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    background: var(--border);
+    border-radius: 2px;
+  }
+  
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--primary);
   }
 }

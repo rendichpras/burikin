@@ -9,6 +9,7 @@ import { useVideoUpload } from "@/hooks/use-video-upload";
 import { Image as ImageIcon, Video } from 'lucide-react';
 import { MediaPreview } from '@/components/media-preview';
 import { ExportDialog } from '@/components/export-dialog';
+import { SEOHead } from '@/components/seo-head';
 
 type MediaType = 'image' | 'video';
 
@@ -81,11 +82,26 @@ export default function Page() {
   }, [cleanupImage, cleanupVideo]);
 
   return (
-    <div className="flex-1 flex items-center py-8 sm:py-12">
-      <div className="container max-w-5xl mx-auto px-4">
-        <div className="max-w-2xl mx-auto space-y-6">
+    <>
+      <SEOHead />
+      <div className="flex-1 flex items-center py-8 sm:py-12">
+        <div className="container max-w-5xl mx-auto px-4">
+          <div className="max-w-2xl mx-auto space-y-6">
+            {/* SEO Heading */}
+            <header className="text-center space-y-4">
+              <h1 className="text-3xl font-bold text-foreground">
+                Kompresi Gambar & Video Online Gratis
+              </h1>
+              <h2 className="text-lg font-semibold text-muted-foreground">
+                Kompres file gambar dan video tanpa watermark, tanpa menyimpan file Anda
+              </h2>
+              <p className="text-sm text-muted-foreground font-medium">
+                Mendukung format JPG, PNG, WebP, MP4, dan WebM. Semua proses dilakukan di browser Anda.
+              </p>
+            </header>
+
         {/* Media Type Selector */}
-        <div className="bg-card/50 backdrop-blur-sm rounded-xl border p-4">
+        <div className="bg-card/90 backdrop-blur-sm rounded-sm border-2 border-border p-4 neo-shadow">
           <div className="flex gap-2">
             <button
               onClick={() => {
@@ -98,15 +114,15 @@ export default function Page() {
                 setVideoError(null);
                 setVideoMeta(null);
               }}
-              className={`flex-1 flex items-center justify-center gap-2 px-4 py-3 rounded-lg transition-all duration-200 border ${
+              className={`flex-1 flex items-center justify-center gap-2 px-4 py-3 rounded-sm transition-all duration-200 border-2 font-semibold ${
                 mediaType === 'image'
-                  ? 'bg-primary/10 text-primary border-primary/20'
-                  : 'border-border hover:border-primary/20 hover:bg-muted/50'
+                  ? 'bg-primary/20 text-primary border-primary shadow-[2px_2px_0px_0px_rgba(26,26,26,1)] dark:shadow-[2px_2px_0px_0px_rgba(255,255,255,1)]'
+                  : 'border-border hover:border-primary/40 hover:bg-muted/50 shadow-[1px_1px_0px_0px_rgba(26,26,26,1)] hover:shadow-[2px_2px_0px_0px_rgba(26,26,26,1)] hover:-translate-x-0.5 hover:-translate-y-0.5 dark:shadow-[1px_1px_0px_0px_rgba(255,255,255,1)] dark:hover:shadow-[2px_2px_0px_0px_rgba(255,255,255,1)]'
               }`}
             >
               <ImageIcon className="w-4 h-4" />
-              <span className="text-sm font-medium">Gambar</span>
-              <span className="text-xs text-muted-foreground">50MB</span>
+              <span className="text-sm">Gambar</span>
+              <span className="text-xs text-muted-foreground font-medium">50MB</span>
             </button>
             <button
               onClick={() => {
@@ -119,18 +135,18 @@ export default function Page() {
                 setImageError(null);
                 setImageDimensions(null);
               }}
-              className={`flex-1 flex items-center justify-center gap-2 px-4 py-3 rounded-lg transition-all duration-200 border ${
+              className={`flex-1 flex items-center justify-center gap-2 px-4 py-3 rounded-sm transition-all duration-200 border-2 font-semibold ${
                 mediaType === 'video'
-                  ? 'bg-primary/10 text-primary border-primary/20'
-                  : 'border-border hover:border-primary/20 hover:bg-muted/50'
+                  ? 'bg-primary/20 text-primary border-primary shadow-[2px_2px_0px_0px_rgba(26,26,26,1)] dark:shadow-[2px_2px_0px_0px_rgba(255,255,255,1)]'
+                  : 'border-border hover:border-primary/40 hover:bg-muted/50 shadow-[1px_1px_0px_0px_rgba(26,26,26,1)] hover:shadow-[2px_2px_0px_0px_rgba(26,26,26,1)] hover:-translate-x-0.5 hover:-translate-y-0.5 dark:shadow-[1px_1px_0px_0px_rgba(255,255,255,1)] dark:hover:shadow-[2px_2px_0px_0px_rgba(255,255,255,1)]'
               }`}
             >
               <Video className="w-4 h-4" />
-              <span className="text-sm font-medium">Video</span>
-              <span className="text-xs text-muted-foreground">500MB</span>
+              <span className="text-sm">Video</span>
+              <span className="text-xs text-muted-foreground font-medium">500MB</span>
             </button>
           </div>
-          <p className="text-center text-xs text-muted-foreground mt-3 px-2">
+          <p className="text-center text-xs text-muted-foreground mt-3 px-2 font-medium">
             Semua proses dilakukan di browser Anda. Kami tidak menyimpan file yang Anda unggah.
           </p>
         </div>
@@ -198,7 +214,7 @@ export default function Page() {
             )}
 
             {imageError && (
-              <div className="p-5 rounded-xl bg-destructive/10 border border-destructive/20 text-destructive text-sm">
+              <div className="p-5 rounded-sm bg-destructive/10 border-2 border-destructive/30 text-destructive text-sm font-semibold neo-shadow-sm">
                 {imageError}
               </div>
             )}
@@ -269,7 +285,7 @@ export default function Page() {
             )}
 
             {videoError && (
-              <div className="p-5 rounded-xl bg-destructive/10 border border-destructive/20 text-destructive text-sm">
+              <div className="p-5 rounded-sm bg-destructive/10 border-2 border-destructive/30 text-destructive text-sm font-semibold neo-shadow-sm">
                 {videoError}
               </div>
             )}
@@ -278,5 +294,6 @@ export default function Page() {
         </div>
       </div>
     </div>
+    </>
   );
 }

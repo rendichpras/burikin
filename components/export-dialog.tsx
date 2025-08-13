@@ -36,21 +36,21 @@ export function ExportDialog({ file, resultUrl, type }: ExportDialogProps) {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <button className="flex items-center justify-center gap-2 w-full h-11 px-4 rounded-lg bg-primary/10 text-primary hover:bg-primary/15 transition-colors">
+        <button className="flex items-center justify-center gap-2 w-full h-12 px-4 rounded-sm bg-primary/20 text-primary border-2 border-primary hover:bg-primary/30 transition-all duration-200 font-semibold shadow-[4px_4px_0px_0px_rgba(26,26,26,1)] hover:shadow-[6px_6px_0px_0px_rgba(26,26,26,1)] hover:-translate-x-0.5 hover:-translate-y-0.5 active:shadow-[2px_2px_0px_0px_rgba(26,26,26,1)] active:translate-x-0 active:translate-y-0 dark:shadow-[4px_4px_0px_0px_rgba(255,255,255,1)] dark:hover:shadow-[6px_6px_0px_0px_rgba(255,255,255,1)] dark:active:shadow-[2px_2px_0px_0px_rgba(255,255,255,1)]">
           <FileDown className="w-4 h-4" />
-          <span className="font-medium">Export {type === 'image' ? 'Gambar' : 'Video'}</span>
+          <span>Unduh {type === 'image' ? 'Gambar' : 'Video'}</span>
         </button>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Export {type === 'image' ? 'Gambar' : 'Video'}</DialogTitle>
-          <DialogDescription>
-            Pilih format output yang diinginkan
+          <DialogTitle className="font-bold">Unduh {type === 'image' ? 'Gambar' : 'Video'}</DialogTitle>
+          <DialogDescription className="font-medium">
+            Pilih format hasil yang diinginkan
           </DialogDescription>
         </DialogHeader>
         <div className="py-6">
           <div className="space-y-2">
-            <Label>Format Output</Label>
+            <Label>Format Hasil</Label>
             <Select value={format} onValueChange={setFormat}>
               <SelectTrigger>
                 <SelectValue />
@@ -61,7 +61,7 @@ export function ExportDialog({ file, resultUrl, type }: ExportDialogProps) {
                     <span className="flex items-center gap-2">
                       {f.label}
                       {f.recommended && (
-                        <span className="text-xs text-muted-foreground">
+                        <span className="text-xs text-muted-foreground font-medium">
                           Direkomendasikan
                         </span>
                       )}
@@ -76,7 +76,7 @@ export function ExportDialog({ file, resultUrl, type }: ExportDialogProps) {
           <a
             href={resultUrl}
             download={`${baseName}-lowres.${format}`}
-            className="w-full inline-flex items-center justify-center h-11 px-4 rounded-lg bg-primary text-primary-foreground hover:bg-primary/90 transition-colors"
+            className="w-full inline-flex items-center justify-center h-12 px-4 rounded-sm bg-primary text-primary-foreground border-2 border-primary hover:bg-primary/90 transition-all duration-200 font-semibold shadow-[4px_4px_0px_0px_rgba(26,26,26,1)] hover:shadow-[6px_6px_0px_0px_rgba(26,26,26,1)] hover:-translate-x-0.5 hover:-translate-y-0.5 active:shadow-[2px_2px_0px_0px_rgba(26,26,26,1)] active:translate-x-0 active:translate-y-0 dark:shadow-[4px_4px_0px_0px_rgba(255,255,255,1)] dark:hover:shadow-[6px_6px_0px_0px_rgba(255,255,255,1)] dark:active:shadow-[2px_2px_0px_0px_rgba(255,255,255,1)]"
           >
             Simpan {type === 'image' ? 'Gambar' : 'Video'}
           </a>

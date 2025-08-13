@@ -33,11 +33,11 @@ export function MediaSettings({
   };
 
   return (
-    <div className="bg-card/50 backdrop-blur-sm rounded-xl border p-4">
+    <div className="bg-card/90 backdrop-blur-sm rounded-sm border-2 border-border p-4 neo-shadow">
       <div className="space-y-4">
           {/* Image Settings */}
           <div className="space-y-3">
-            <Label className="text-sm">Pilih Resolusi</Label>
+            <Label className="text-sm font-semibold">Pilih Resolusi</Label>
             {!isCustom ? (
               <Select 
                 value={String(tempHeight)} 
@@ -50,24 +50,24 @@ export function MediaSettings({
                   }
                 }}
               >
-                <SelectTrigger className="w-full">
+                <SelectTrigger className="w-full border-2 border-border rounded-sm shadow-[2px_2px_0px_0px_rgba(26,26,26,1)] dark:shadow-[2px_2px_0px_0px_rgba(255,255,255,1)]">
                   <SelectValue placeholder="Pilih resolusi" />
                 </SelectTrigger>
                 <SelectContent>
                   {type === 'video' ? (
                     <>
-                      <SelectItem value="720">HD (720p)</SelectItem>
-                      <SelectItem value="480">SD (480p)</SelectItem>
+                      <SelectItem value="720">Kualitas Tinggi (720p)</SelectItem>
+                      <SelectItem value="480">Kualitas Standar (480p)</SelectItem>
                       <SelectItem value="360">360p</SelectItem>
                       <SelectItem value="240">240p</SelectItem>
                       <SelectItem value="144">144p</SelectItem>
                     </>
                   ) : (
                     <>
-                      <SelectItem value="144">HD (144px)</SelectItem>
-                      <SelectItem value="96">Medium (96px)</SelectItem>
-                      <SelectItem value="48">Low (48px)</SelectItem>
-                      <SelectItem value="24">Potato (24px)</SelectItem>
+                      <SelectItem value="144">Kualitas Tinggi (144px)</SelectItem>
+                      <SelectItem value="96">Kualitas Menengah (96px)</SelectItem>
+                      <SelectItem value="48">Kualitas Rendah (48px)</SelectItem>
+                      <SelectItem value="24">Kualitas Sangat Rendah (24px)</SelectItem>
                     </>
                   )}
                   <SelectItem value="custom">Kustom...</SelectItem>
@@ -82,7 +82,7 @@ export function MediaSettings({
                     max="1080"
                     value={customHeight}
                     onChange={(e) => handleCustomHeightChange(e.target.value)}
-                    className="flex-1"
+                    className="flex-1 border-2 border-border rounded-sm shadow-[2px_2px_0px_0px_rgba(26,26,26,1)] dark:shadow-[2px_2px_0px_0px_rgba(255,255,255,1)]"
                     placeholder="Tinggi kustom (px)"
                   />
                   <button
@@ -90,13 +90,13 @@ export function MediaSettings({
                       setIsCustom(false);
                       setTempHeight(96); // Reset to default
                     }}
-                    className="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-9 px-3"
+                    className="inline-flex items-center justify-center whitespace-nowrap rounded-sm text-sm font-semibold ring-offset-background transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border-2 border-border bg-background hover:bg-accent hover:border-accent h-9 px-3 shadow-[2px_2px_0px_0px_rgba(26,26,26,1)] hover:shadow-[4px_4px_0px_0px_rgba(26,26,26,1)] hover:-translate-x-0.5 hover:-translate-y-0.5 dark:shadow-[2px_2px_0px_0px_rgba(255,255,255,1)] dark:hover:shadow-[4px_4px_0px_0px_rgba(255,255,255,1)]"
                     type="button"
                   >
                     Batal
                   </button>
                 </div>
-                <p className="text-xs text-muted-foreground">
+                <p className="text-xs text-muted-foreground font-medium">
                   Masukkan nilai antara 1-1080px
                 </p>
               </div>
@@ -105,8 +105,8 @@ export function MediaSettings({
 
           {/* Audio Settings for Video */}
           {type === 'video' && (
-            <div className="space-y-3 pt-3 border-t">
-              <Label className="text-sm">Audio</Label>
+            <div className="space-y-3 pt-3 border-t-2 border-border">
+              <Label className="text-sm font-semibold">Suara</Label>
               {!isCustomAudio ? (
                 <Select 
                   value={String(audioBitrate)} 
@@ -119,8 +119,8 @@ export function MediaSettings({
                     }
                   }}
                 >
-                  <SelectTrigger className="w-full">
-                    <SelectValue placeholder="Pilih kualitas audio" />
+                  <SelectTrigger className="w-full border-2 border-border rounded-sm shadow-[2px_2px_0px_0px_rgba(26,26,26,1)] dark:shadow-[2px_2px_0px_0px_rgba(255,255,255,1)]">
+                    <SelectValue placeholder="Pilih kualitas suara" />
                   </SelectTrigger>
                   <SelectContent>
                     <SelectItem value="32">32kbps</SelectItem>
@@ -145,7 +145,7 @@ export function MediaSettings({
                           setAudioBitrate(num);
                         }
                       }}
-                      className="flex-1"
+                      className="flex-1 border-2 border-border rounded-sm shadow-[2px_2px_0px_0px_rgba(26,26,26,1)] dark:shadow-[2px_2px_0px_0px_rgba(255,255,255,1)]"
                       placeholder="1-320"
                     />
                     <button
@@ -153,13 +153,13 @@ export function MediaSettings({
                         setIsCustomAudio(false);
                         setAudioBitrate(32); // Reset ke default
                       }}
-                      className="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-9 px-3"
+                      className="inline-flex items-center justify-center whitespace-nowrap rounded-sm text-sm font-semibold ring-offset-background transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border-2 border-border bg-background hover:bg-accent hover:border-accent h-9 px-3 shadow-[2px_2px_0px_0px_rgba(26,26,26,1)] hover:shadow-[4px_4px_0px_0px_rgba(26,26,26,1)] hover:-translate-x-0.5 hover:-translate-y-0.5 dark:shadow-[2px_2px_0px_0px_rgba(255,255,255,1)] dark:hover:shadow-[4px_4px_0px_0px_rgba(255,255,255,1)]"
                       type="button"
                     >
                       Batal
                     </button>
                   </div>
-                  <p className="text-xs text-muted-foreground">1-320</p>
+                  <p className="text-xs text-muted-foreground font-medium">1-320</p>
                 </div>
               )}
 
@@ -169,7 +169,7 @@ export function MediaSettings({
         {/* Apply Button */}
         <button
           onClick={() => onApplySettings({ height: tempHeight, audioBitrate })}
-          className="w-full h-9 inline-flex items-center justify-center whitespace-nowrap rounded-lg text-sm font-medium bg-primary/10 text-primary hover:bg-primary/15 transition-colors"
+          className="w-full h-12 inline-flex items-center justify-center whitespace-nowrap rounded-sm text-sm font-semibold bg-primary/20 text-primary border-2 border-primary hover:bg-primary/30 transition-all duration-200 shadow-[4px_4px_0px_0px_rgba(26,26,26,1)] hover:shadow-[6px_6px_0px_0px_rgba(26,26,26,1)] hover:-translate-x-0.5 hover:-translate-y-0.5 active:shadow-[2px_2px_0px_0px_rgba(26,26,26,1)] active:translate-x-0 active:translate-y-0 dark:shadow-[4px_4px_0px_0px_rgba(255,255,255,1)] dark:hover:shadow-[6px_6px_0px_0px_rgba(255,255,255,1)] dark:active:shadow-[2px_2px_0px_0px_rgba(255,255,255,1)]"
           type="button"
         >
           Terapkan Perubahan

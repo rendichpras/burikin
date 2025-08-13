@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://burikin.rendiichtiar.com/sitemap.xml
+
+# Crawl-delay untuk menghormati server
+Crawl-delay: 1

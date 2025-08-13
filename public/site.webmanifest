@@ -1,21 +1,27 @@
 {
-  "name": "Burikin",
+  "name": "Burikin - Kompresi Gambar & Video Online",
   "short_name": "Burikin",
-  "description": "Kompres gambar dan video secara gratis",
+  "description": "Kompres gambar dan video secara gratis, tanpa watermark, dan tanpa menyimpan file Anda",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#ffffff",
-  "theme_color": "#ffffff",
+  "background_color": "#F8F8F8",
+  "theme_color": "#FF6B35",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "lang": "id",
+  "categories": ["utilities", "productivity"],
   "icons": [
     {
       "src": "/android-chrome-192x192.png",
       "sizes": "192x192",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any maskable"
     },
     {
       "src": "/android-chrome-512x512.png",
       "sizes": "512x512",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any maskable"
     }
   ]
 }

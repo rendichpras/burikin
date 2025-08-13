@@ -69,12 +69,12 @@ export function MediaPreview({
   }
 
   return (
-    <div className="bg-card/50 backdrop-blur-sm rounded-xl border p-4">
+    <div className="bg-card/90 backdrop-blur-sm rounded-sm border-2 border-border p-4 neo-shadow">
       {/* Preview Container */}
       <div className="flex flex-col sm:flex-row sm:items-center gap-4">
         <div className="flex items-center gap-4 flex-1 min-w-0">
           {/* Media Preview */}
-          <div className="w-20 h-20 rounded-xl bg-black/5 backdrop-blur-lg border flex-shrink-0 relative overflow-hidden">
+          <div className="w-20 h-20 rounded-sm bg-black/5 backdrop-blur-lg border-2 border-border flex-shrink-0 relative overflow-hidden shadow-[2px_2px_0px_0px_rgba(26,26,26,1)] dark:shadow-[2px_2px_0px_0px_rgba(255,255,255,1)]">
             {isVideo ? (
               <video
                 src={preview || undefined}
@@ -94,7 +94,7 @@ export function MediaPreview({
             )}
             {loading && !resultUrl && (
               <div 
-                className="absolute inset-0 flex items-center justify-center bg-background/50 backdrop-blur-sm z-10"
+                className="absolute inset-0 flex items-center justify-center bg-background/80 backdrop-blur-sm z-10"
                 role="status"
                 aria-label="Sedang memproses media"
               >
@@ -105,13 +105,13 @@ export function MediaPreview({
 
           {/* File Info */}
           <div className="min-w-0 flex-1">
-            <div className="font-medium text-base truncate max-w-full">{file?.name}</div>
+            <div className="font-semibold text-base truncate max-w-full">{file?.name}</div>
             <div className="flex flex-wrap items-center gap-x-2 gap-y-1 text-sm text-muted-foreground mt-1">
-              <span className="font-medium">{file ? (file.size / 1024 / 1024).toFixed(2) : 0} MB</span>
+              <span className="font-semibold">{file ? (file.size / 1024 / 1024).toFixed(2) : 0} MB</span>
               {mediaMeta && (
                 <span className="flex items-center gap-1">
                   <span>•</span>
-                  <span>
+                  <span className="font-medium">
                     {mediaMeta.width} × {mediaMeta.height}px
                     {isVideo && 'duration' in mediaMeta && (
                       <>
@@ -143,18 +143,18 @@ export function MediaPreview({
           <AlertDialog>
             <AlertDialogTrigger asChild>
               <Button
-                variant="default"
-                className="w-full sm:w-auto h-9 px-3 justify-center gap-1.5 bg-primary/10 text-primary hover:bg-primary/15 transition-colors"
+                variant="outline"
+                className="w-full sm:w-auto h-10 px-4 justify-center gap-2 border-2 border-border bg-background hover:bg-accent hover:border-accent transition-all duration-200 font-semibold shadow-[2px_2px_0px_0px_rgba(26,26,26,1)] hover:shadow-[4px_4px_0px_0px_rgba(26,26,26,1)] hover:-translate-x-0.5 hover:-translate-y-0.5 dark:shadow-[2px_2px_0px_0px_rgba(255,255,255,1)] dark:hover:shadow-[4px_4px_0px_0px_rgba(255,255,255,1)]"
                 disabled={loading && !resultUrl}
               >
-                <RefreshCw className="h-3.5 w-3.5" />
+                <RefreshCw className="h-4 w-4" />
                 <span className="text-sm">{buttonText}</span>
               </Button>
             </AlertDialogTrigger>
             <AlertDialogContent className="sm:max-w-[425px]">
               <AlertDialogHeader>
-                <AlertDialogTitle>{dialogTitle}</AlertDialogTitle>
-                <AlertDialogDescription>
+                <AlertDialogTitle className="font-bold">{dialogTitle}</AlertDialogTitle>
+                <AlertDialogDescription className="font-medium">
                   {dialogDescription}
                 </AlertDialogDescription>
               </AlertDialogHeader>

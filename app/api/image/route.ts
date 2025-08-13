@@ -7,13 +7,27 @@ const ALLOWED_MIME_TYPES = ['image/jpeg', 'image/png', 'image/gif'];
 const MAX_DIMENSION = 5000;
 const MIN_DIMENSION = 1;
 
+// Helper function untuk format timestamp
+function getTimestamp() {
+  return new Date().toLocaleString('id-ID', {
+    timeZone: 'Asia/Jakarta',
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit',
+    hour12: false
+  });
+}
+
 export async function POST(req: Request) {
   const startTime = Date.now();
   const requestId = Math.random().toString(36).substring(7);
   let processId = 0; // Default value
 
   const ip = req.headers.get('x-forwarded-for') || 'unknown';
-  console.log(`[${requestId}][IMAGE] Processing request started | IP: ${ip}`);
+  console.log(`[${getTimestamp()}][${requestId}][IMAGE] Processing request started | IP: ${ip}`);
   
   try {
     // Rate limiting
@@ -116,7 +130,7 @@ export async function POST(req: Request) {
     const compression = ((1 - processedSize / originalSize) * 100).toFixed(1);
     
     console.log(
-      `[${requestId}][IMAGE] Processed successfully in ${duration}ms | ` +
+      `[${getTimestamp()}][${requestId}][IMAGE] Processed successfully in ${duration}ms | ` +
       `Original: ${originalSize.toFixed(1)}MB | ` +
       `Processed: ${processedSize.toFixed(1)}MB | ` +
       `Compressed: ${compression}% | ` +
@@ -132,7 +146,7 @@ export async function POST(req: Request) {
 
   } catch (err: unknown) {
     const duration = Date.now() - startTime;
-    console.error(`[${requestId}][IMAGE] Error processing (${duration}ms):`, err);
+    console.error(`[${getTimestamp()}][${requestId}][IMAGE] Error processing (${duration}ms):`, err);
     
     // Akhiri tracking proses
     rateLimit.endProcess(processId);
