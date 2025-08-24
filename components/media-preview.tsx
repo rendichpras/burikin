@@ -69,12 +69,12 @@ export function MediaPreview({
   }
 
   return (
-    <div className="bg-card/90 backdrop-blur-sm rounded-sm border-2 border-border p-4 neo-shadow">
+    <div className="bg-card/90 backdrop-blur-sm rounded-md border border-border p-5 shadow-md">
       {/* Preview Container */}
       <div className="flex flex-col sm:flex-row sm:items-center gap-4">
         <div className="flex items-center gap-4 flex-1 min-w-0">
           {/* Media Preview */}
-          <div className="w-20 h-20 rounded-sm bg-black/5 backdrop-blur-lg border-2 border-border flex-shrink-0 relative overflow-hidden shadow-[2px_2px_0px_0px_rgba(26,26,26,1)] dark:shadow-[2px_2px_0px_0px_rgba(255,255,255,1)]">
+          <div className="w-20 h-20 rounded-md bg-black/5 backdrop-blur-lg border border-border flex-shrink-0 relative overflow-hidden shadow-sm">
             {isVideo ? (
               <video
                 src={preview || undefined}
@@ -105,13 +105,13 @@ export function MediaPreview({
 
           {/* File Info */}
           <div className="min-w-0 flex-1">
-            <div className="font-semibold text-base truncate max-w-full">{file?.name}</div>
+            <div className="font-medium text-base truncate max-w-full">{file?.name}</div>
             <div className="flex flex-wrap items-center gap-x-2 gap-y-1 text-sm text-muted-foreground mt-1">
-              <span className="font-semibold">{file ? (file.size / 1024 / 1024).toFixed(2) : 0} MB</span>
+              <span>{file ? (file.size / 1024 / 1024).toFixed(2) : 0} MB</span>
               {mediaMeta && (
                 <span className="flex items-center gap-1">
                   <span>•</span>
-                  <span className="font-medium">
+                  <span>
                     {mediaMeta.width} × {mediaMeta.height}px
                     {isVideo && 'duration' in mediaMeta && (
                       <>
@@ -144,7 +144,7 @@ export function MediaPreview({
             <AlertDialogTrigger asChild>
               <Button
                 variant="outline"
-                className="w-full sm:w-auto h-10 px-4 justify-center gap-2 border-2 border-border bg-background hover:bg-accent hover:border-accent transition-all duration-200 font-semibold shadow-[2px_2px_0px_0px_rgba(26,26,26,1)] hover:shadow-[4px_4px_0px_0px_rgba(26,26,26,1)] hover:-translate-x-0.5 hover:-translate-y-0.5 dark:shadow-[2px_2px_0px_0px_rgba(255,255,255,1)] dark:hover:shadow-[4px_4px_0px_0px_rgba(255,255,255,1)]"
+                className="w-full sm:w-auto"
                 disabled={loading && !resultUrl}
               >
                 <RefreshCw className="h-4 w-4" />
@@ -153,8 +153,8 @@ export function MediaPreview({
             </AlertDialogTrigger>
             <AlertDialogContent className="sm:max-w-[425px]">
               <AlertDialogHeader>
-                <AlertDialogTitle className="font-bold">{dialogTitle}</AlertDialogTitle>
-                <AlertDialogDescription className="font-medium">
+                <AlertDialogTitle>{dialogTitle}</AlertDialogTitle>
+                <AlertDialogDescription>
                   {dialogDescription}
                 </AlertDialogDescription>
               </AlertDialogHeader>

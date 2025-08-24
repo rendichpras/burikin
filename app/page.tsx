@@ -101,8 +101,8 @@ export default function Page() {
             </header>
 
         {/* Media Type Selector */}
-        <div className="bg-card/90 backdrop-blur-sm rounded-sm border-2 border-border p-4 neo-shadow">
-          <div className="flex gap-2">
+        <div className="bg-card/90 backdrop-blur-sm rounded-md border border-border p-5 shadow-md">
+          <div className="flex gap-3">
             <button
               onClick={() => {
                 setMediaType('image');
@@ -114,15 +114,15 @@ export default function Page() {
                 setVideoError(null);
                 setVideoMeta(null);
               }}
-              className={`flex-1 flex items-center justify-center gap-2 px-4 py-3 rounded-sm transition-all duration-200 border-2 font-semibold ${
+              className={`flex-1 flex items-center justify-center gap-2 px-4 py-3 rounded-md transition-all duration-300 border font-medium ${
                 mediaType === 'image'
-                  ? 'bg-primary/20 text-primary border-primary shadow-[2px_2px_0px_0px_rgba(26,26,26,1)] dark:shadow-[2px_2px_0px_0px_rgba(255,255,255,1)]'
-                  : 'border-border hover:border-primary/40 hover:bg-muted/50 shadow-[1px_1px_0px_0px_rgba(26,26,26,1)] hover:shadow-[2px_2px_0px_0px_rgba(26,26,26,1)] hover:-translate-x-0.5 hover:-translate-y-0.5 dark:shadow-[1px_1px_0px_0px_rgba(255,255,255,1)] dark:hover:shadow-[2px_2px_0px_0px_rgba(255,255,255,1)]'
+                  ? 'bg-primary/10 text-primary border-primary shadow-md'
+                  : 'border-border hover:border-primary/40 hover:bg-muted/50 shadow-sm hover:shadow-md hover:-translate-y-1'
               }`}
             >
               <ImageIcon className="w-4 h-4" />
               <span className="text-sm">Gambar</span>
-              <span className="text-xs text-muted-foreground font-medium">50MB</span>
+              <span className="text-xs text-muted-foreground">50MB</span>
             </button>
             <button
               onClick={() => {
@@ -135,18 +135,18 @@ export default function Page() {
                 setImageError(null);
                 setImageDimensions(null);
               }}
-              className={`flex-1 flex items-center justify-center gap-2 px-4 py-3 rounded-sm transition-all duration-200 border-2 font-semibold ${
+              className={`flex-1 flex items-center justify-center gap-2 px-4 py-3 rounded-md transition-all duration-300 border font-medium ${
                 mediaType === 'video'
-                  ? 'bg-primary/20 text-primary border-primary shadow-[2px_2px_0px_0px_rgba(26,26,26,1)] dark:shadow-[2px_2px_0px_0px_rgba(255,255,255,1)]'
-                  : 'border-border hover:border-primary/40 hover:bg-muted/50 shadow-[1px_1px_0px_0px_rgba(26,26,26,1)] hover:shadow-[2px_2px_0px_0px_rgba(26,26,26,1)] hover:-translate-x-0.5 hover:-translate-y-0.5 dark:shadow-[1px_1px_0px_0px_rgba(255,255,255,1)] dark:hover:shadow-[2px_2px_0px_0px_rgba(255,255,255,1)]'
+                  ? 'bg-primary/10 text-primary border-primary shadow-md'
+                  : 'border-border hover:border-primary/40 hover:bg-muted/50 shadow-sm hover:shadow-md hover:-translate-y-1'
               }`}
             >
               <Video className="w-4 h-4" />
               <span className="text-sm">Video</span>
-              <span className="text-xs text-muted-foreground font-medium">500MB</span>
+              <span className="text-xs text-muted-foreground">500MB</span>
             </button>
           </div>
-          <p className="text-center text-xs text-muted-foreground mt-3 px-2 font-medium">
+          <p className="text-center text-xs text-muted-foreground mt-3 px-2">
             Semua proses dilakukan di browser Anda. Kami tidak menyimpan file yang Anda unggah.
           </p>
         </div>
@@ -214,7 +214,7 @@ export default function Page() {
             )}
 
             {imageError && (
-              <div className="p-5 rounded-sm bg-destructive/10 border-2 border-destructive/30 text-destructive text-sm font-semibold neo-shadow-sm">
+              <div className="p-5 rounded-md bg-destructive/10 border border-destructive/30 text-destructive text-sm shadow-sm">
                 {imageError}
               </div>
             )}
@@ -285,7 +285,7 @@ export default function Page() {
             )}
 
             {videoError && (
-              <div className="p-5 rounded-sm bg-destructive/10 border-2 border-destructive/30 text-destructive text-sm font-semibold neo-shadow-sm">
+              <div className="p-5 rounded-md bg-destructive/10 border border-destructive/30 text-destructive text-sm shadow-sm">
                 {videoError}
               </div>
             )}

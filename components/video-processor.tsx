@@ -40,7 +40,7 @@ export function VideoProcessor({
   return (
     <div className="space-y-4">
       {/* Video Preview */}
-      <div className="relative rounded-sm overflow-hidden bg-black/5 backdrop-blur-sm border-2 border-border neo-shadow">
+      <div className="relative rounded-md overflow-hidden bg-black/5 backdrop-blur-sm border border-border shadow-md">
         <div className="aspect-video relative">
           <video
             src={currentVideo}
@@ -65,15 +65,15 @@ export function VideoProcessor({
             <div className="absolute inset-0 flex items-center justify-center bg-background/80 backdrop-blur-sm">
               <div className="flex flex-col items-center gap-3">
                 <div className="w-full max-w-[200px] space-y-2">
-                  <div className="h-1 w-full bg-muted rounded-sm overflow-hidden border-2 border-border">
+                  <div className="h-1 w-full bg-muted rounded-full overflow-hidden border border-border">
                     <div 
-                      className="h-full bg-primary transition-all duration-300 rounded-sm" 
+                      className="h-full bg-primary transition-all duration-300 rounded-full" 
                       style={{ width: `${progress}%` }}
                     />
                   </div>
                   <div className="flex justify-between items-center text-xs">
-                    <span className="text-muted-foreground font-medium">Memproses video...</span>
-                    <span className="text-primary font-semibold">{progress}%</span>
+                    <span className="text-muted-foreground">Memproses video...</span>
+                    <span className="text-primary">{progress}%</span>
                   </div>
                 </div>
               </div>
@@ -83,8 +83,8 @@ export function VideoProcessor({
 
         {/* Video Info */}
         {videoMeta && (
-          <div className="absolute top-3 left-3 bg-background/90 backdrop-blur-sm rounded-sm border-2 border-border px-3 py-2 text-xs space-y-1 shadow-[2px_2px_0px_0px_rgba(26,26,26,1)] dark:shadow-[2px_2px_0px_0px_rgba(255,255,255,1)]">
-            <div className="font-semibold">Info Video</div>
+          <div className="absolute top-3 left-3 bg-background/90 backdrop-blur-sm rounded-md border border-border px-3 py-2 text-xs space-y-1 shadow-sm">
+            <div>Info Video</div>
             <div className="text-muted-foreground space-y-0.5">
               <div>Resolusi: {videoMeta.width} × {videoMeta.height}px</div>
               <div>Durasi: {Math.round(videoMeta.duration)}s</div>

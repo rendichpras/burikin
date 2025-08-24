@@ -44,73 +44,73 @@
 }
 
 :root {
-  /* Neobrutalism Design System - Classic Colors */
-  --radius: 0.25rem; /* Sharp edges instead of rounded */
-  --background: #F8F8F8;
-  --foreground: #1A1A1A;
+  /* Modern Design System - 2024 */
+  --radius: 1rem; /* Rounded edges for modern look */
+  --background: #F9FAFB; /* Slightly off-white for better eye comfort */
+  --foreground: #111827; /* Dark gray instead of pure black */
   --card: #FFFFFF;
-  --card-foreground: #1A1A1A;
+  --card-foreground: #111827;
   --popover: #FFFFFF;
-  --popover-foreground: #1A1A1A;
-  --primary: #FF6B35; /* Bold orange - classic neobrutalism */
+  --popover-foreground: #111827;
+  --primary: #4F46E5; /* Modern indigo */
   --primary-foreground: #FFFFFF;
-  --secondary: #4ECDC4; /* Bright teal */
-  --secondary-foreground: #FFFFFF;
-  --muted: #F0F0F0;
-  --muted-foreground: #666666;
-  --accent: #FFE66D; /* Bright yellow */
-  --accent-foreground: #1A1A1A;
-  --destructive: #FF4757; /* Bright red */
-  --border: #1A1A1A; /* Black borders for contrast */
+  --secondary: #F3F4F6; /* Light gray */
+  --secondary-foreground: #111827;
+  --muted: #F3F4F6;
+  --muted-foreground: #6B7280;
+  --accent: #10B981; /* Modern emerald */
+  --accent-foreground: #FFFFFF;
+  --destructive: #EF4444; /* Modern red */
+  --border: #E5E7EB; /* Light border */
   --input: #FFFFFF;
-  --ring: #FF6B35;
-  --chart-1: #FF6B35;
-  --chart-2: #4ECDC4;
-  --chart-3: #FFE66D;
-  --chart-4: #FF4757;
-  --chart-5: #A55EEA;
+  --ring: #4F46E5;
+  --chart-1: #4F46E5;
+  --chart-2: #10B981;
+  --chart-3: #F59E0B;
+  --chart-4: #EF4444;
+  --chart-5: #8B5CF6;
   --sidebar: #FFFFFF;
-  --sidebar-foreground: #1A1A1A;
-  --sidebar-primary: #FF6B35;
+  --sidebar-foreground: #111827;
+  --sidebar-primary: #4F46E5;
   --sidebar-primary-foreground: #FFFFFF;
-  --sidebar-accent: #4ECDC4;
+  --sidebar-accent: #10B981;
   --sidebar-accent-foreground: #FFFFFF;
-  --sidebar-border: #1A1A1A;
-  --sidebar-ring: #FF6B35;
+  --sidebar-border: #E5E7EB;
+  --sidebar-ring: #4F46E5;
 }
 
 .dark {
-  --background: #1A1A1A;
-  --foreground: #FFFFFF;
-  --card: #2A2A2A;
-  --card-foreground: #FFFFFF;
-  --popover: #2A2A2A;
-  --popover-foreground: #FFFFFF;
-  --primary: #FF6B35; /* Keep bold orange in dark mode */
+  --background: #0F172A; /* Dark blue background */
+  --foreground: #F9FAFB;
+  --card: #1E293B; /* Slightly lighter than background */
+  --card-foreground: #F9FAFB;
+  --popover: #1E293B;
+  --popover-foreground: #F9FAFB;
+  --primary: #6366F1; /* Indigo in dark mode */
   --primary-foreground: #FFFFFF;
-  --secondary: #4ECDC4; /* Keep bright teal */
-  --secondary-foreground: #FFFFFF;
-  --muted: #333333;
-  --muted-foreground: #CCCCCC;
-  --accent: #FFE66D; /* Keep bright yellow */
-  --accent-foreground: #1A1A1A;
-  --destructive: #FF4757; /* Keep bright red */
-  --border: #FFFFFF; /* White borders for dark mode */
-  --input: #2A2A2A;
-  --ring: #FF6B35;
-  --chart-1: #FF6B35;
-  --chart-2: #4ECDC4;
-  --chart-3: #FFE66D;
-  --chart-4: #FF4757;
-  --chart-5: #A55EEA;
-  --sidebar: #2A2A2A;
-  --sidebar-foreground: #FFFFFF;
-  --sidebar-primary: #FF6B35;
+  --secondary: #334155; /* Dark gray */
+  --secondary-foreground: #F9FAFB;
+  --muted: #1E293B;
+  --muted-foreground: #94A3B8;
+  --accent: #34D399; /* Emerald in dark mode */
+  --accent-foreground: #0F172A;
+  --destructive: #F87171; /* Lighter red for dark mode */
+  --border: #334155; /* Subtle border */
+  --input: #1E293B;
+  --ring: #6366F1;
+  --chart-1: #6366F1;
+  --chart-2: #34D399;
+  --chart-3: #FBBF24;
+  --chart-4: #F87171;
+  --chart-5: #A78BFA;
+  --sidebar: #1E293B;
+  --sidebar-foreground: #F9FAFB;
+  --sidebar-primary: #6366F1;
   --sidebar-primary-foreground: #FFFFFF;
-  --sidebar-accent: #4ECDC4;
-  --sidebar-accent-foreground: #FFFFFF;
-  --sidebar-border: #FFFFFF;
-  --sidebar-ring: #FF6B35;
+  --sidebar-accent: #34D399;
+  --sidebar-accent-foreground: #0F172A;
+  --sidebar-border: #334155;
+  --sidebar-ring: #6366F1;
 }
 
 @layer base {
@@ -120,72 +120,123 @@
   body {
     @apply bg-background text-foreground;
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    font-weight: 500; /* Slightly bolder text for neobrutalism */
+    font-weight: 400; /* Normal weight for modern clean look */
+    letter-spacing: -0.011em; /* Slightly tighter letter spacing for modern look */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
   
-  /* Neobrutalism specific styles */
+  h1, h2, h3, h4, h5, h6 {
+    font-weight: 600;
+    letter-spacing: -0.025em;
+    line-height: 1.2;
+  }
+  
+  h1 {
+    font-size: 2.25rem; /* 36px */
+  }
+  
+  h2 {
+    font-size: 1.875rem; /* 30px */
+  }
+  
+  h3 {
+    font-size: 1.5rem; /* 24px */
+  }
+  
+  h4 {
+    font-size: 1.25rem; /* 20px */
+  }
+  
+  h5 {
+    font-size: 1.125rem; /* 18px */
+  }
+  
+  h6 {
+    font-size: 1rem; /* 16px */
+  }
+  
+  /* Modern shadow styles */
   .neo-shadow {
-    box-shadow: 4px 4px 0px 0px rgba(26, 26, 26, 1);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
   }
   
   .neo-shadow-hover {
-    box-shadow: 6px 6px 0px 0px rgba(26, 26, 26, 1);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
   }
   
   .neo-shadow-sm {
-    box-shadow: 2px 2px 0px 0px rgba(26, 26, 26, 1);
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
   }
   
   .neo-shadow-lg {
-    box-shadow: 8px 8px 0px 0px rgba(26, 26, 26, 1);
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
   }
   
-  /* Dark mode shadows */
+  /* Dark mode shadows - subtle blue tint */
   .dark .neo-shadow {
-    box-shadow: 4px 4px 0px 0px rgba(255, 255, 255, 1);
+    box-shadow: 0 4px 6px -1px rgba(59, 130, 246, 0.15), 0 2px 4px -1px rgba(59, 130, 246, 0.1);
   }
   
   .dark .neo-shadow-hover {
-    box-shadow: 6px 6px 0px 0px rgba(255, 255, 255, 1);
+    box-shadow: 0 10px 15px -3px rgba(59, 130, 246, 0.2), 0 4px 6px -2px rgba(59, 130, 246, 0.15);
   }
   
   .dark .neo-shadow-sm {
-    box-shadow: 2px 2px 0px 0px rgba(255, 255, 255, 1);
+    box-shadow: 0 1px 3px 0 rgba(59, 130, 246, 0.12), 0 1px 2px 0 rgba(59, 130, 246, 0.08);
   }
   
   .dark .neo-shadow-lg {
-    box-shadow: 8px 8px 0px 0px rgba(255, 255, 255, 1);
+    box-shadow: 0 20px 25px -5px rgba(59, 130, 246, 0.25), 0 10px 10px -5px rgba(59, 130, 246, 0.2);
   }
   
-  /* Neobrutalism animations */
+  /* Modern hover animations */
   .neo-hover {
-    transition: all 0.2s ease-in-out;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
   
   .neo-hover:hover {
-    transform: translate(-2px, -2px);
+    transform: translateY(-4px);
   }
   
   .neo-hover:active {
-    transform: translate(0px, 0px);
+    transform: translateY(-2px);
   }
   
-  /* Custom scrollbar for neobrutalism */
+  /* Modern custom scrollbar */
   ::-webkit-scrollbar {
-    width: 8px;
-    height: 8px;
+    width: 6px;
+    height: 6px;
   }
   
   ::-webkit-scrollbar-track {
     background: var(--muted);
+    border-radius: 8px;
   }
   
   ::-webkit-scrollbar-thumb {
-    background: var(--border);
-    border-radius: 2px;
+    background: var(--muted-foreground);
+    border-radius: 8px;
+    opacity: 0.5;
   }
   
   ::-webkit-scrollbar-thumb:hover {
     background: var(--primary);
+    opacity: 0.8;
+  }
+  
+  /* Glass effect utility classes */
+  .glass {
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+  }
+  
+  .dark .glass {
+    background: rgba(30, 41, 59, 0.7);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(30, 41, 59, 0.18);
   }
 }
